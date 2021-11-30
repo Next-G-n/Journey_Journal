@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background_register2"
+    tools:context=".Register">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollable"
+        android:fillViewport="true" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:weightSum="100">
+            <LinearLayout
+                android:layout_weight="20"
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_weight="35"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_logo"
+                    android:padding="25dp"
+                    android:layout_marginTop="-50dp"
+                    android:layout_marginStart="10dp"
+                    />
+                <LinearLayout
+                    android:layout_weight="65"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:weightSum="100"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_weight="60"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="@string/register"
+                        android:gravity="bottom"
+                        android:textSize="40sp"
+                        android:textColor="@color/colorAccent2"
+
+                        />
+                    <TextView
+                        android:layout_weight="40"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="@string/enjoy_Register"
+                        android:textColor="@color/colorAccent2"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="80"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:weightSum="100">
+
+
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="10"
+                    android:id="@+id/first_name_register"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:hint="@string/first_name"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    android:elevation="10dp"
+                    android:background="@drawable/text_field"
+                    tools:ignore="RtlSymmetry,TextFields"
+                    />
+                <EditText
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="10"
+                    android:id="@+id/last_name_register"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:hint="@string/last_name"
+                    android:paddingStart="20dp"
+                    android:inputType="text"
+                    android:elevation="10dp"
+                    android:background="@drawable/text_field"
+                    tools:ignore="RtlSymmetry,TextFields"
+                    />
+
+
+                <EditText
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="10"
+                    android:id="@+id/email_register"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:hint="@string/email"
+                    android:paddingStart="20dp"
+                    android:inputType="textEmailAddress"
+                    android:elevation="10dp"
+                    android:background="@drawable/text_field"
+                    tools:ignore="RtlSymmetry,TextFields"
+                    />
+
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="10"
+                    android:elevation="10dp"
+                   android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/text_field"
+                    android:orientation="horizontal">
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_weight="15"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccp_showPhoneCode="true"
+                        app:ccp_showNameCode="false"
+                        />
+                    <EditText
+                        android:layout_weight="85"
+                        android:id="@+id/phone_number_register"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:hint="@string/phone_number"
+                        android:inputType="phone"
+                        android:background="@drawable/text_phone_number"
+                        android:digits="0123456789+"
+                        android:paddingStart="20dp"
+                        android:elevation="10dp"
+                        tools:ignore="RtlSymmetry,TextFields"
+                        />
+
+                </LinearLayout>
+
+
+
+
+                <EditText
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="10"
+                    android:id="@+id/password_register"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:hint="@string/password"
+                    android:paddingStart="20dp"
+                    android:inputType="textPassword"
+                    android:elevation="10dp"
+                    android:background="@drawable/text_field"
+                    tools:ignore="RtlSymmetry,TextFields"
+                    
+                    />
+
+                <EditText
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="10"
+                    android:id="@+id/password_confirm_register"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:hint="@string/confirm_password"
+                    android:paddingStart="20dp"
+                    android:inputType="textPassword"
+                    android:elevation="10dp"
+                    android:background="@drawable/text_field"
+                    tools:ignore="RtlSymmetry,TextFields"
+                    />
+                <Button
+                    android:id="@+id/registration_btn"
+                    android:layout_weight="9"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/button"
+                    android:text="@string/submit"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+</ScrollView>
+
+</LinearLayout>

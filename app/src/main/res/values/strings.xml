@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">Journey Journal Shatty</string>
+    <string name="last_name">Last Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">LOGIN</string>
+    <string name="login_with"><b>Login With</b></string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="create"><b>Create New Account</b></string>
+    <string name="welcome"><b>Welcome</b></string>
+    <string name="enjoy_login">Login and enjoy traver</string>
+    <string name="enjoy_Register">Register and enjoy traver</string>
+    <string name="register"><b>Register</b></string>
+    <string name="full_name">Full Name</string>
+    <string name="submit">SUBMIT</string>
+    <string name="first_name">First Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="loading"><b>Loading...</b></string>
+    <string name="reset"><b>Reset Password</b></string>
+    <string name="logout"><b>Logout</b></string>
+    <string name="web_client_id">966610160429-g3rf2n8ddc6qua789iac4jv3sulefch7.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1038478943654724</string>
+    <string name="fb_login_protocol_scheme">fb1038478943654724</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="notification">Notification</string>
+    <string name="name">Nshathisi Matiha</string>
+    <string name="map">Map</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="example_title">Game Drive</string>
+    <string name="location_example">Botswana, Manu</string>
+    <string name="type_of_journey">What type of journey?</string>
+    <string name="current_journey">Current Journey</string>
+    <string name="previous_journey">Previous Journey</string>
+    <string name="current_journey2"><b>Current Journey</b></string>
+    <string name="previous_journey2"><b>Previous Journey</b></string>
+    <string name="search_msg"><b>What are you looking for?</b></string>
+    <string name="title">Title</string>
+    <string name="choose">Choose Image from</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="location">Location</string>
+    <string name="date">Date</string>
+    <string name="end_date">End Date</string>
+    <string name="description">Description</string>
+    <string name="example_dec_msg">Lorem ipsumdolor sit amet, consectetur adipiscing elit. Risus condimentum nulla diam proin quis commodo malesuada. Dolor morbi egestas consectetur egestas aliquam tellus. Accumsan tristique ...  </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">TODO</string>
+
+
+    <string name="action_geolocate">Pick Place</string>
+    <string name="default_info_title">Default Location</string>
+    <string name="default_info_snippet">No places found, because location permission is disabled.</string>
+    <string name="google_maps_key">AIzaSyD58Dc-pe33vzjFZimj9tnR9bcH5yleHEM</string>
+
+</resources>

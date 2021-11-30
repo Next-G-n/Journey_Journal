@@ -1,0 +1,52 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent2</item>
+        <item name="fontFamily">@fonts/rubik-black.ttf</item>
+    </style>
+
+    <style name="NoActionBarAndStatusBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="Widget.App.TextInputLayout" parent="Widget.Design.TextInputLayout">
+
+    </style>
+
+    <style name="NoActionBarAndStatusBar2" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/WhiteBackground</item>
+        <item name="colorAccent">@color/colorAccent2</item>
+        <item name="textInputStyle"> @style/Widget.App.TextInputLayout</item>
+
+    </style>
+    <!-- Splash Screen theme. -->
+    <style name="splashScreenExampleTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--  Drawable resource file is specified as the window background  -->
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+
+        <!--  Set the color of the status bar  -->
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+    <style name="bounders" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+    </style>
+    <style name="Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10%</item>
+        <item name="elevation">10dp</item>
+    </style>
+    <style name="Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout2" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4%</item>
+        <item name="elevation">10dp</item>
+    </style>
+
+</resources>
