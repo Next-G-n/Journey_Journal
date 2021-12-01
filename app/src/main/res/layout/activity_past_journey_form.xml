@@ -28,6 +28,7 @@
                 android:layout_gravity="center"
                 android:background="@color/colorPrimary"
                 app:cardCornerRadius="150dp"
+
                 app:cardElevation="5dp">
                 <ImageView
                     android:padding="10dp"
@@ -71,10 +72,15 @@
 
     </LinearLayout>
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="15dp"
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimaryDark"
@@ -83,9 +89,11 @@
         app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
         app:boxStrokeColor="@color/colorPrimaryDark"
         app:boxBackgroundColor="@color/white"
+        app:errorEnabled="true"
         style="@style/bounders">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
+            android:id="@+id/title_edit"
             android:layout_height="wrap_content"
             android:hint="@string/title"
             android:textColor="@color/colorPrimaryDark"
@@ -97,11 +105,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="15dp"
+        android:id="@+id/location_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/location"
         android:textColorHint="@color/colorPrimaryDark"
         android:layout_marginStart="40dp"
+        app:errorEnabled="true"
         android:layout_marginEnd="40dp"
         app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
         app:boxStrokeColor="@color/colorPrimaryDark"
@@ -110,46 +120,18 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title"
+            android:id="@+id/location_edit"
+            android:hint="@string/location"
             android:textColor="@color/colorPrimaryDark"
             android:inputType="text" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="@color/colorPrimary" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="349dp"
-        tools:context=".MapsActivity" />
 
-    <ListView
-        android:id="@+id/listPlaces"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingStart="20dp"
-        android:id="@+id/map2"
-        android:paddingEnd="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:gravity="center_vertical"
-        android:text="@string/location"
-        android:background="@drawable/new_text_field"
-        android:textColor="@color/colorPrimaryDark"
-        />
+
+
 
     <TextView
         android:layout_marginTop="15dp"
@@ -169,9 +151,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="15dp"
+        android:id="@+id/description_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/description"
+        app:errorEnabled="true"
         android:textColorHint="@color/colorPrimaryDark"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -182,8 +166,9 @@
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title"
+        android:hint="@string/description"
         android:textColor="@color/colorPrimaryDark"
+        android:id="@+id/description_edit"
         android:inputType="textMultiLine"
         android:lines="12"
         android:scrollbars="vertical"
@@ -194,16 +179,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/next_btn"
+        android:id="@+id/submit_post"
         android:layout_marginTop="25dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:background="@color/colorPrimaryDark"
         android:text="@string/submit"
         android:textColor="@color/white"
         />
-
+</LinearLayout>
 
 </LinearLayout>

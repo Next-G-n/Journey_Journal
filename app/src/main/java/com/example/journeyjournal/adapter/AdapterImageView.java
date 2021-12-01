@@ -4,6 +4,8 @@ import static com.google.firebase.firestore.FieldValue.delete;
 import static java.security.AccessController.getContext;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.journeyjournal.PastJourneyForm;
 import com.example.journeyjournal.R;
+import com.example.journeyjournal.UploadImage;
 import com.example.journeyjournal.models.SliderItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,14 +27,16 @@ import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHolder> {
+public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHolder>  implements Serializable{
     private Context context;
     private List<SliderItem> sliderItems;
     private ViewPager2 viewPager2;
     private OnItemClickListLister mListLister;
+    private PastJourneyForm pastJourneyForm;
 
     public interface OnItemClickListLister{
         void onItemClick(int position);
@@ -47,9 +54,10 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
     }
 
 
-    public AdapterImageView(Context context, List<SliderItem> sliderItems) {
+    public AdapterImageView(Context context, List<SliderItem> sliderItems,ViewPager2 viewPager2) {
         this.context = context;
         this.sliderItems = sliderItems;
+        this.viewPager2 = viewPager2;
     }
 
     @NonNull
@@ -63,7 +71,6 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
     public void onBindViewHolder(@NonNull AdapterImageView.MyHolder holder, int position) {
         holder.setImage(sliderItems.get(position));
         int i=position;
-        System.out.println("yes me 2"+i);
 
         holder.delete_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +85,15 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
         }catch (Exception e){
             System.out.println("this Error "+e);
         }
+
+       /* if(position==sliderItems.size()-2){
+            viewPager2.post(runnable);
+        }*/
+        Intent intent = new Intent(context, PastJourneyForm.class);
+        intent.putExtra("mylist", (Serializable) sliderItems);
+
+
+
 
 
 
@@ -98,7 +114,7 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
     public class MyHolder extends RecyclerView.ViewHolder{
         private RoundedImageView imageView;
         private String imageString;
-        private ImageButton delete_info;
+        private final CardView delete_info;
 
 
         public MyHolder(View inflate) {

@@ -2,9 +2,12 @@ package com.example.journeyjournal.models;
 
 import android.net.Uri;
 
-public class SliderItem {
-    private Uri image;
-    private String imageName;
+import java.io.Serializable;
+
+public class SliderItem implements Serializable {
+    private transient Uri image;
+    private transient String imageName;
+
 
     public SliderItem(Uri image, String imageName) {
         this.image = image;

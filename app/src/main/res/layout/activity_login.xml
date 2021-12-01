@@ -21,6 +21,7 @@
             android:src="@drawable/ic_logo_with_text" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_weight="10"
         android:weightSum="100"
@@ -121,6 +122,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:orientation="horizontal"
                 android:gravity="center">
                 <ImageButton
                     android:layout_width="45dp"

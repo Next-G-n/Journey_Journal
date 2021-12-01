@@ -1,25 +1,17 @@
 package com.example.journeyjournal;
 
-import static com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_CENTER;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,12 +108,12 @@ public class Home extends AppCompatActivity {
         dialog.setCancelable(true);
         dialog.show();
 
-        TextView previous_j=dialog.findViewById(R.id.previous_journey);
-        TextView current_j=dialog.findViewById(R.id.current_journey);
+        Button previous_j=dialog.findViewById(R.id.previous_journey);
+        Button current_j=dialog.findViewById(R.id.current_journey);
         previous_j.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Home.this,UploadPostInfo.class));
+                startActivity(new Intent(Home.this, UploadImage.class));
                 dialog.dismiss();
             }
         });

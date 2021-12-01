@@ -1,11 +1,11 @@
 package com.example.journeyjournal;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -15,15 +15,13 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,17 +33,25 @@ import com.example.journeyjournal.adapter.AdapterImageView;
 import com.example.journeyjournal.models.SliderItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.api.Context;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class UploadPostInfo extends AppCompatActivity {
+public class UploadImage extends AppCompatActivity implements Serializable{
 
     private ViewPager2 viewPager2;
     Button next_btn,upload_image_btn;
@@ -58,6 +64,7 @@ public class UploadPostInfo extends AppCompatActivity {
     private StorageReference mStorageRef;
     private FirebaseAuth auth;
     private Dialog dialog;
+    private FirebaseFirestore firestore;
 
     private static final int CAMERA_REQUEST_CODE=100;
     private static final int STORAGE_REQUEST_CODE=200;
@@ -65,20 +72,25 @@ public class UploadPostInfo extends AppCompatActivity {
     private static final int IMAGE_PICK_CAMERA_CODE=300;
     private static final int IMAGE_PICK_GALLERY_CODE=400;
     Uri imge_uri=null;
+    private DatabaseReference UsersRef;
     String [] cameraPermission;
     String[] storagePermission;
+    String timeStampPost="Nothing";
+    String downloadUri;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_post_info);
+        setContentView(R.layout.activity_upload_image);
         viewPager2=findViewById(R.id.viewPageImageSlider);
         next_btn=findViewById(R.id.next_btn);
         upload_image_btn=findViewById(R.id.upload_Images_btn);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         auth=FirebaseAuth.getInstance();
+        firestore=FirebaseFirestore.getInstance();
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
         upload_image_btn.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +106,6 @@ public class UploadPostInfo extends AppCompatActivity {
 
         sliderItems=new ArrayList<>();
        // sliderItems.add(new SliderItem(R.drawable.com_facebook_auth_dialog_background));
-
 
 
         viewPager2.setClipToPadding(false);
@@ -126,11 +137,80 @@ public class UploadPostInfo extends AppCompatActivity {
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(UploadPostInfo.this,PastJourneyForm.class));
+                if(sliderItems.isEmpty()){
+                    Toast.makeText(UploadImage.this,"Please Upload images",Toast.LENGTH_SHORT).show();
+                }else{
+                    uploadImagesInfo();
+                }
+
+
+
+                System.out.println("this error : "+sliderItems.size());
+
 
             }
         });
 
+    }
+
+    private void uploadImagesInfo() {
+        if(timeStampPost.equals("Nothing")){
+            timeStampPost= String.valueOf(System.currentTimeMillis());
+        }
+        FirebaseUser userID=auth.getCurrentUser();
+        String uid=userID.getUid();
+        DocumentReference documentReference=firestore.collection(uid).document("Past Journey_"+timeStampPost);
+        Map<String,Object> post_info=new HashMap<>();
+        post_info.put("Title",null);
+        post_info.put("Location",null);
+        post_info.put("Date",null);
+        post_info.put("Description",null);
+        int i;
+        for(i=0;i<sliderItems.size();++i){
+            uploadImageToDb(sliderItems.get(i).getImageName(),sliderItems.get(i).getImage(),uid,i);
+            System.out.println("Shatty : "+downloadUri);
+            post_info.put("image"+i,downloadUri);
+        }
+        documentReference.set(post_info).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Intent intent = new Intent(UploadImage.this, PastJourneyForm.class);
+                intent.putExtra("timeStampPost", timeStampPost);
+                startActivity(intent);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG,"Error adding document" +e);
+            }
+        });
+    }
+
+    private String uploadImageToDb(String imageName, Uri image, String uid,int i) {
+        StorageReference mRef = mStorageRef.child(uid).child(imageName);
+
+        mRef.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isSuccessful());
+                String downloadUri2=uriTask.getResult().toString();
+                DocumentReference documentReference=firestore.collection(uid).document("Past Journey_"+timeStampPost);
+                Map<String,Object> post_info=new HashMap<>();
+                post_info.put("image"+i,downloadUri2);
+                documentReference.update(post_info);
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+        System.out.println("All Okay :"+downloadUri);
+        return downloadUri;
     }
 
     public void removeItem(int position){
@@ -140,7 +220,7 @@ public class UploadPostInfo extends AppCompatActivity {
 
     private void showImagePickDialog() {
 
-        dialog= new Dialog(UploadPostInfo.this);
+        dialog= new Dialog(UploadImage.this);
         dialog.setContentView(R.layout.image_dialog);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dalog_white));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -149,6 +229,8 @@ public class UploadPostInfo extends AppCompatActivity {
 
         TextView camera=dialog.findViewById(R.id.camera);
         TextView gallery=dialog.findViewById(R.id.gallery);
+
+
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,16 +245,13 @@ public class UploadPostInfo extends AppCompatActivity {
             }
         });
 
-        gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //gallery clicked
-                if (!checkStoragePermission()){
-                    requestStoragePermission();
-                }else {
-                    pickFromGallery();
-                    dialog.dismiss();
-                }
+        gallery.setOnClickListener(view -> {
+            //gallery clicked
+            if (!checkStoragePermission()){
+                requestStoragePermission();
+            }else {
+                pickFromGallery();
+                dialog.dismiss();
             }
         });
 
@@ -206,7 +285,7 @@ public class UploadPostInfo extends AppCompatActivity {
 
     private void requestStoragePermission(){
         //request runtime storage permission
-        ActivityCompat.requestPermissions(UploadPostInfo.this,storagePermission,STORAGE_REQUEST_CODE
+        ActivityCompat.requestPermissions(UploadImage.this,storagePermission,STORAGE_REQUEST_CODE
         );
     }
 
@@ -220,7 +299,7 @@ public class UploadPostInfo extends AppCompatActivity {
 
     private void requestCameraPermission(){
         //request runtime storage permission
-        ActivityCompat.requestPermissions(UploadPostInfo.this,cameraPermission,CAMERA_REQUEST_CODE
+        ActivityCompat.requestPermissions(UploadImage.this,cameraPermission,CAMERA_REQUEST_CODE
         );
     }
     //handle permission request
@@ -266,6 +345,7 @@ public class UploadPostInfo extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
 
+
                 if (data.getClipData() != null) {
 
 
@@ -275,13 +355,13 @@ public class UploadPostInfo extends AppCompatActivity {
 
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         viewPager2.setBackground(getDrawable(R.color.colorPrimaryLDark));
-                        uploadImageStore(imageUri);
+                        uploadImageStore(imageUri,i);
 
                     }
 
 
                 } else if (data.getData() != null) {
-                    uploadImageStore(imge_uri);
+                    uploadImageStore(imge_uri, 1);
                 }
 
             }
@@ -289,7 +369,7 @@ public class UploadPostInfo extends AppCompatActivity {
 
         }else if(requestCode==IMAGE_PICK_CAMERA_CODE){
 
-            uploadImageStore(imge_uri);
+            uploadImageStore(imge_uri, 1);
 
             }
 
@@ -301,34 +381,20 @@ public class UploadPostInfo extends AppCompatActivity {
 
     }
 
-    private  void uploadImageStore(Uri imge_uri){
+    private  void uploadImageStore(Uri imge_uri, int i) {
 
         final String timeStamp= String.valueOf(System.currentTimeMillis());
 
         SliderItem modalClass = new SliderItem(imge_uri,timeStamp);
         sliderItems.add(modalClass);
 
-        adapterImageView = new AdapterImageView(UploadPostInfo.this, sliderItems);
+        adapterImageView = new AdapterImageView(UploadImage.this, sliderItems,viewPager2);
 
-        viewPager2.setAdapter(new AdapterImageView(UploadPostInfo.this,sliderItems ));
+        viewPager2.setAdapter(new AdapterImageView(UploadImage.this,sliderItems ,viewPager2));
 
-        FirebaseUser user=auth.getCurrentUser();
-        String userId= user.getUid();
-
-        StorageReference mRef = mStorageRef.child(userId).child(timeStamp);
-
-        mRef.putFile(imge_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(UploadPostInfo.this, "Upload Images", Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UploadPostInfo.this, "Fail" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        FirebaseUser userID=auth.getCurrentUser();
+        String uid=userID.getUid();
+       // uploadImage(timeStamp,imge_uri,uid,i);
     }
 
 

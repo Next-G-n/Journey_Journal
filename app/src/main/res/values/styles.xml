@@ -22,7 +22,7 @@
 
     <style name="NoActionBarAndStatusBar2" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/WhiteBackground</item>
+        <item name="colorPrimaryDark">@color/WhiteBackground2</item>
         <item name="colorAccent">@color/colorAccent2</item>
         <item name="textInputStyle"> @style/Widget.App.TextInputLayout</item>
 
