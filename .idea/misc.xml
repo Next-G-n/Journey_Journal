@@ -3,36 +3,48 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/back_dalog_white2.xml" value="0.17263513513513515" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/background_dalog_white.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/background_dialog.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/button.xml" value="0.13958333333333334" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/ic_add_round.xml" value="0.1625" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/ic_arrow.xml" value="0.1625" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/ic_background.xml" value="0.13958333333333334" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/ic_background_2.xml" value="0.1625" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/ic_background_3.xml" value="0.1625" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/new_text_field.xml" value="0.12569444444444444" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/splashscreen.xml" value="0.16666666666666666" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/text_field.xml" value="0.13020833333333334" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/text_field_error.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/drawable/text_phone_number.xml" value="0.12430555555555556" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_add_new_journey_entry.xml" value="0.152" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_home.xml" value="0.136" />
-        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_login.xml" value="0.5386100386100386" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_journey_entry_details.xml" value="0.12" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_login.xml" value="0.136" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_past_journey_form.xml" value="0.16216216216216217" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_register.xml" value="0.128" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_twitter_login.xml" value="0.1293918918918919" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_upload_image.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_upload_post_info.xml" value="0.1632047477744807" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/activity_view_jouney_entry_details.xml" value="0.16216216216216217" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/add_daliog.xml" value="0.264" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/all_post.xml" value="0.176" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/custom_dialog_loading.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/dialog_reset_password.xml" value="0.1" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/edit_dialog.xml" value="0.16" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/fragment_bookmark.xml" value="0.13445945945945945" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/fragment_locatiion.xml" value="0.13445945945945945" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/fragment_news_feed.xml" value="0.2350230414746544" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/image_dialog.xml" value="0.2" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/slider_item_container.xml" value="0.1" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/slider_item_container_2.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/splash_screen.xml" value="0.1" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/layout/user_profile.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/menu/menu.xml" value="0.1070945945945946" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/menu/menu_bottom.xml" value="0.1" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/menu/menu_top.xml" value="0.13682432432432431" />
         <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/menu/replace_menu.xml" value="0.16216216216216217" />
+        <entry key="..\:/Flutter_porjects/JourneyJournal/app/src/main/res/xml/file_provider_path.xml" value="0.11554054054054054" />
       </map>
     </option>
   </component>

@@ -24,10 +24,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.journeyjournal.adapter.AdapterImageViewWithLike;
 import com.example.journeyjournal.models.SliderItem;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -36,6 +39,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -75,6 +79,7 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
     private FirebaseUser userID;
     private StorageReference mStorageRef;
     private SliderItem sliderItem2;
+    String actions,entry_Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +101,19 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
 
 
 
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationEnabled();
         getLocation();
 
+        Intent intent=getIntent();
+        entry_Id=intent.getStringExtra("Entry_Id");
+        actions=intent.getStringExtra("Action");
 
+        if(actions.equals("Updating_entry")){
+            submit_btn.setText("Update Entry");
+            loadEntryInfoDetails();
+        }
 
 
         //
@@ -127,15 +140,50 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
             }
         });
 
-        materialDatePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener) selection -> date_picker.setText(materialDatePicker.getHeaderText()));
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+            @Override
+            public void onPositiveButtonClick(Pair<Long, Long> selection) {
+                date_picker.setText(materialDatePicker.getHeaderText());
+            }
+        });
+       // materialDatePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener) selection -> date_picker.setText(materialDatePicker.getHeaderText()));
 
         submit_btn.setOnClickListener(view -> {
-            UploadInfo();
+                UploadInfo();
+
         });
 
 
 
 
+    }
+
+
+    private void loadEntryInfoDetails() {
+        DocumentReference docRef = firestore.collection("Post Entries").document(entry_Id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String title1=document.getString("Title");
+                        String location1=document.getString("Location");
+                        String date1=document.getString("Date");
+                        String description1=document.getString("Description");
+
+                        title_edit.setText(title1);
+                        description_edit.setText(description1);
+                        location_Edit.setText(location1);
+                        date_picker.setText(date1);
+                    } else {
+                        System.out.println("Error 2");
+                    }
+                } else {
+                    System.out.println("Error 1");
+                }
+            }
+        });
     }
 
 
@@ -146,11 +194,8 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
         final String desc=Objects.requireNonNull(description_edit.getText()).toString().trim();
         final String location= Objects.requireNonNull(location_Edit.getText()).toString().trim();
 
-        Intent n = this.getIntent();
         Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
         String timeStampPost = intent.getStringExtra("timeStampPost");
-        System.out.println("Mamita :"+timeStampPost);
         if(TextUtils.isEmpty(title)) {
             clearError();
             title_layout.setError("Please fill this field");
@@ -174,9 +219,13 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
             //Store information in FireStore
             userID=auth.getCurrentUser();
             String uid=userID.getUid();
-            Log.w(TAG,"test document");
 
-            DocumentReference documentReference=firestore.collection(uid).document("Past Journey_"+timeStampPost);
+            DocumentReference documentReference=null;
+            if(actions.equals("Updating_entry")) {
+                documentReference = firestore.collection("Post Entries").document(entry_Id);
+            }else {
+                documentReference = firestore.collection("Post Entries").document("Past Journey_" + timeStampPost);
+            }
             Map<String,Object> post_info=new HashMap<>();
             post_info.put("Title",title);
             post_info.put("Location",location);

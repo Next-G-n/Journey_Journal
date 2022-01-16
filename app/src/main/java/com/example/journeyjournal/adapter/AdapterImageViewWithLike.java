@@ -32,12 +32,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHolder>  implements Serializable{
+public class AdapterImageViewWithLike extends RecyclerView.Adapter<AdapterImageViewWithLike.MyHolder>  implements Serializable{
     private Context context;
     private List<SliderItem> sliderItems;
     private ViewPager2 viewPager2;
     private OnItemClickListLister mListLister;
     private PastJourneyForm pastJourneyForm;
+
 
     public interface OnItemClickListLister{
         void onItemClick(int position);
@@ -55,7 +56,7 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
     }
 
 
-    public AdapterImageView(Context context, List<SliderItem> sliderItems,ViewPager2 viewPager2) {
+    public AdapterImageViewWithLike(Context context, List<SliderItem> sliderItems,ViewPager2 viewPager2) {
         this.context = context;
         this.sliderItems = sliderItems;
         this.viewPager2 = viewPager2;
@@ -63,46 +64,35 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
 
     @NonNull
     @Override
-    public AdapterImageView.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterImageViewWithLike.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        return new  AdapterImageView.MyHolder (LayoutInflater.from(context).inflate
-                (R.layout.slider_item_container,parent,false));
+        return new  AdapterImageViewWithLike.MyHolder (LayoutInflater.from(context).inflate
+                (R.layout.slider_item_container_2,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterImageView.MyHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterImageViewWithLike.MyHolder holder, int position) {
         holder.setImage(sliderItems.get(position));
         int i=position;
-
+/*
         holder.delete_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    removeItem(i);
+                removeItem(i);
             }
         });
 
-        if(sliderItems.get(position).getImageName().equals("Nothing")){
-            try{
-                Picasso.get().load(sliderItems.get(position).getFromDatabase())
-                        .fit()
-                        .centerInside()
-                        .into(holder.imageView);
+ */
 
-            }catch (Exception e){
-                System.out.println("this Error "+e);
-            }
-        } else {
-            try{
-                Picasso.get().load(sliderItems.get(position).getImage())
-                        .fit()
-                        .centerInside()
-                        .into(holder.imageView);
+        try{
+            Picasso.get().load(sliderItems.get(position).getFromDatabase())
+                    .fit()
+                    .centerInside()
+                    .into(holder.imageView);
 
-            }catch (Exception e){
-                System.out.println("this Error "+e);
-            }
+        }catch (Exception e){
+            System.out.println("this Error "+e);
         }
-
 
         /*if(position==sliderItems.size()-2){
             viewPager2.post(runnable);
@@ -139,6 +129,7 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
             super(inflate);
             imageView=itemView.findViewById(R.id.imageSlide);
             delete_info=itemView.findViewById(R.id.deleted);
+            /*
             delete_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -151,12 +142,14 @@ public class AdapterImageView extends RecyclerView.Adapter<AdapterImageView.MyHo
                 }
             });
 
+             */
+
         }
 
 
         void  setImage(SliderItem sliderItem){
-           // imageView.setImageResource(sliderItem.getImage());
-         }
+            // imageView.setImageResource(sliderItem.getImage());
+        }
     }
 
     private Runnable runnable=new Runnable() {

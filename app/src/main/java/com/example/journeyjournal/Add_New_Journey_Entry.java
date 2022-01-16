@@ -1,16 +1,17 @@
 package com.example.journeyjournal;
 
 import static android.content.ContentValues.TAG;
+import java.net.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -30,31 +31,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.journeyjournal.adapter.AdapterImageView;
+import com.example.journeyjournal.adapter.AdapterImageViewWithLike;
 import com.example.journeyjournal.models.SliderItem;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class UploadImage extends AppCompatActivity implements Serializable{
+public class Add_New_Journey_Entry extends AppCompatActivity {
 
     private ViewPager2 viewPager2;
-    Button next_btn,upload_image_btn;
+    Button next_btn;
+    FloatingActionButton upload_image_btn;
     private Handler sliderHandler=new Handler();
     private int IMAGE_CODE=1;
     List<SliderItem> sliderItems;
@@ -77,20 +83,33 @@ public class UploadImage extends AppCompatActivity implements Serializable{
     String[] storagePermission;
     String timeStampPost="Nothing";
     String downloadUri;
-
+    String actions,entry_Id;
+    int imageCount;
+    private TextView header_images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        setTheme(R.style.NoActionBarAndStatusBar2);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_image);
+        setContentView(R.layout.activity_add_new_journey_entry);
+
         viewPager2=findViewById(R.id.viewPageImageSlider);
         next_btn=findViewById(R.id.next_btn);
-        upload_image_btn=findViewById(R.id.upload_Images_btn);
+        upload_image_btn=findViewById(R.id.upload_Images_float);
+        header_images=findViewById(R.id.header_images);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        Intent intent=getIntent();
+        entry_Id=intent.getStringExtra("Entry_Id");
+        actions=intent.getStringExtra("Action");
+
+        if(actions.equals("Updating_entry")){
+            next_btn.setText("Update Images");
+            loadImages();
+        }
 
 
         upload_image_btn.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +124,7 @@ public class UploadImage extends AppCompatActivity implements Serializable{
         storagePermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         sliderItems=new ArrayList<>();
-       // sliderItems.add(new SliderItem(R.drawable.com_facebook_auth_dialog_background));
+        // sliderItems.add(new SliderItem(R.drawable.com_facebook_auth_dialog_background));
 
 
         viewPager2.setClipToPadding(false);
@@ -130,7 +149,7 @@ public class UploadImage extends AppCompatActivity implements Serializable{
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 sliderHandler.removeCallbacks(sliderRunner);
-                sliderHandler.postDelayed(sliderRunner, 3000);
+                sliderHandler.postDelayed(sliderRunner, 8000);
             }
         });
 
@@ -138,17 +157,86 @@ public class UploadImage extends AppCompatActivity implements Serializable{
             @Override
             public void onClick(View view) {
                 if(sliderItems.isEmpty()){
-                    Toast.makeText(UploadImage.this,"Please Upload images",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Add_New_Journey_Entry.this,"Please Upload images",Toast.LENGTH_SHORT).show();
                 }else{
-                    uploadImagesInfo();
+                    if (actions.equals("Updating_entry")){
+                        UpdateImages();
+                    }else {
+                        uploadImagesInfo();
+                    }
+
                 }
                 System.out.println("this error : "+sliderItems.size());
 
 
             }
         });
-
     }
+
+    private void UpdateImages() {
+        FirebaseUser userID=auth.getCurrentUser();
+        String uid=userID.getUid();
+        DocumentReference documentReference=firestore.collection("Post Entries").document(entry_Id);
+        Map<String,Object> post_info=new HashMap<>();
+        post_info.put("imageCount",sliderItems.size());
+
+        int i;
+        for(i=0;i<sliderItems.size();++i){
+
+            if(sliderItems.get(i).getImageName().equals("Nothing")){
+                post_info.put("image"+i,sliderItems.get(i).getFromDatabase());
+            }else{
+                Toast.makeText(Add_New_Journey_Entry.this, "this add an image", Toast.LENGTH_SHORT).show();
+                uploadImageToDb(sliderItems.get(i).getImageName(),sliderItems.get(i).getImage(),uid,i);
+            }
+        }
+        documentReference.set(post_info, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Intent i = new Intent(Add_New_Journey_Entry.this, Journey_Entry_Details.class);
+                i.putExtra("Entry_Id",entry_Id);
+                startActivity(i);
+                finish();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG,"Error adding document" +e);
+            }
+        });
+    }
+
+    private void loadImages() {
+        DocumentReference docRef = firestore.collection("Post Entries").document(entry_Id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String title1=document.getString("Title");
+                        imageCount= Objects.requireNonNull(document.getLong("imageCount")).intValue();
+                        for(int i=0;i<imageCount;++i) {
+                            SliderItem modalClass = new SliderItem(document.getString("image" + i),"Nothing");
+                            sliderItems.add(modalClass);
+                        }
+                        adapterImageView = new AdapterImageView(Add_New_Journey_Entry.this, sliderItems,viewPager2);
+
+                        viewPager2.setAdapter(new AdapterImageView(Add_New_Journey_Entry.this,sliderItems ,viewPager2));
+
+                        header_images.setText(title1);
+                    } else {
+                        System.out.println("Error 2");
+                    }
+                } else {
+                    System.out.println("Error 1");
+                }
+            }
+        });
+    }
+
+
 
     private void uploadImagesInfo() {
         if(timeStampPost.equals("Nothing")){
@@ -156,24 +244,32 @@ public class UploadImage extends AppCompatActivity implements Serializable{
         }
         FirebaseUser userID=auth.getCurrentUser();
         String uid=userID.getUid();
-        DocumentReference documentReference=firestore.collection(uid).document("Past Journey_"+timeStampPost);
+        DocumentReference documentReference=firestore.collection("Post Entries").document("Past Journey_"+timeStampPost);
         Map<String,Object> post_info=new HashMap<>();
         post_info.put("Title",null);
         post_info.put("Location",null);
         post_info.put("Date",null);
         post_info.put("Description",null);
+        post_info.put("UserId",uid);
+        post_info.put("imageCount",sliderItems.size());
+        post_info.put("EntryId","Past Journey_"+timeStampPost);
         int i;
         for(i=0;i<sliderItems.size();++i){
-            uploadImageToDb(sliderItems.get(i).getImageName(),sliderItems.get(i).getImage(),uid,i);
-            System.out.println("Shatty : "+downloadUri);
-            post_info.put("image"+i,downloadUri);
+            if(sliderItems.get(i).getImageName().equals("Nothing")){
+                post_info.put("image"+i,sliderItems.get(i).getFromDatabase());
+            }else{
+                uploadImageToDb(sliderItems.get(i).getImageName(),sliderItems.get(i).getImage(),uid,i);
+            }
+            //post_info.put("image"+i,downloadUri);
         }
         documentReference.set(post_info).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Intent intent = new Intent(UploadImage.this, PastJourneyForm.class);
-                intent.putExtra("timeStampPost", timeStampPost);
-                startActivity(intent);
+                Intent i = new Intent(Add_New_Journey_Entry.this, PastJourneyForm.class);
+                i.putExtra("Action","add_new_entry");
+                i.putExtra("timeStampPost", timeStampPost);
+                startActivity(i);
+                finish();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -193,9 +289,15 @@ public class UploadImage extends AppCompatActivity implements Serializable{
                 Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
                 while (!uriTask.isSuccessful());
                 String downloadUri2=uriTask.getResult().toString();
-                DocumentReference documentReference=firestore.collection(uid).document("Past Journey_"+timeStampPost);
+                DocumentReference documentReference=null;
+                if(actions.equals("Updating_entry")) {
+                    documentReference = firestore.collection("Post Entries").document(entry_Id);
+                }else{
+                    documentReference = firestore.collection("Post Entries").document("Past Journey_" + timeStampPost);
+                }
                 Map<String,Object> post_info=new HashMap<>();
                 post_info.put("image"+i,downloadUri2);
+                Toast.makeText(Add_New_Journey_Entry.this,"works well2 "+downloadUri2,Toast.LENGTH_SHORT).show();
                 documentReference.update(post_info);
 
 
@@ -217,7 +319,7 @@ public class UploadImage extends AppCompatActivity implements Serializable{
 
     private void showImagePickDialog() {
 
-        dialog= new Dialog(UploadImage.this);
+        dialog= new Dialog(Add_New_Journey_Entry.this);
         dialog.setContentView(R.layout.image_dialog);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dalog_white));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -281,7 +383,7 @@ public class UploadImage extends AppCompatActivity implements Serializable{
 
     private void requestStoragePermission(){
         //request runtime storage permission
-        ActivityCompat.requestPermissions(UploadImage.this,storagePermission,STORAGE_REQUEST_CODE
+        ActivityCompat.requestPermissions(Add_New_Journey_Entry.this,storagePermission,STORAGE_REQUEST_CODE
         );
     }
 
@@ -295,7 +397,7 @@ public class UploadImage extends AppCompatActivity implements Serializable{
 
     private void requestCameraPermission(){
         //request runtime storage permission
-        ActivityCompat.requestPermissions(UploadImage.this,cameraPermission,CAMERA_REQUEST_CODE
+        ActivityCompat.requestPermissions(Add_New_Journey_Entry.this,cameraPermission,CAMERA_REQUEST_CODE
         );
     }
     //handle permission request
@@ -367,7 +469,7 @@ public class UploadImage extends AppCompatActivity implements Serializable{
 
             uploadImageStore(imge_uri, 1);
 
-            }
+        }
 
 
 
@@ -384,13 +486,13 @@ public class UploadImage extends AppCompatActivity implements Serializable{
         SliderItem modalClass = new SliderItem(imge_uri,timeStamp);
         sliderItems.add(modalClass);
 
-        adapterImageView = new AdapterImageView(UploadImage.this, sliderItems,viewPager2);
+        adapterImageView = new AdapterImageView(Add_New_Journey_Entry.this, sliderItems,viewPager2);
 
-        viewPager2.setAdapter(new AdapterImageView(UploadImage.this,sliderItems ,viewPager2));
+        viewPager2.setAdapter(new AdapterImageView(Add_New_Journey_Entry.this,sliderItems ,viewPager2));
 
         FirebaseUser userID=auth.getCurrentUser();
         String uid=userID.getUid();
-       // uploadImage(timeStamp,imge_uri,uid,i);
+        // uploadImage(timeStamp,imge_uri,uid,i);
     }
 
 
@@ -414,4 +516,5 @@ public class UploadImage extends AppCompatActivity implements Serializable{
         super.onResume();
         sliderHandler.postDelayed(sliderRunner,3000);
     }
+
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_weight="100"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_weight="60"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/edit_msg"
+        android:textSize="25sp"
+        android:textColor="@color/colorAccent2"
+        android:layout_marginBottom="20dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorPrimaryDark"/>
+
+    <Button
+        android:id="@+id/edit_Images"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAllCaps="false"
+        android:text="@string/images"
+        android:textAppearance="?attr/textAppearanceButton"
+        android:textColor="#225C92"
+        android:textSize="15sp" />
+
+    <Button
+        android:layout_marginBottom="20dp"
+        android:id="@+id/edit_info"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceButton"
+        android:text="@string/info_entry"
+        android:textColor="@color/colorPrimaryMDark"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        />
+
+
+</LinearLayout>

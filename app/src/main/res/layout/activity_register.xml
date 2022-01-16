@@ -169,7 +169,7 @@
                     android:elevation="10dp"
                     android:background="@drawable/text_field"
                     tools:ignore="RtlSymmetry,TextFields"
-                    
+
                     />
 
                 <EditText

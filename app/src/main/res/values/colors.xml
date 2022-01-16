@@ -9,4 +9,6 @@
     <color name="WhiteBackground2">#C8F8FBFF</color>
     <color name="white">#FFFF</color>
     <color name="red">#FF4646</color>
+    <color name="grey">#10143656</color>
+    <color name="toptopbar">#99000000</color>
 </resources>

@@ -113,7 +113,9 @@ public class Home extends AppCompatActivity {
         previous_j.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Home.this, UploadImage.class));
+                Intent i = new Intent(Home.this, Add_New_Journey_Entry.class);
+                i.putExtra("Action","Add_new_entry");
+                startActivity(i);
                 dialog.dismiss();
             }
         });

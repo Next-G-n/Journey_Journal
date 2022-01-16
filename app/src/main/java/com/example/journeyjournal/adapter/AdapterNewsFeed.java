@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -20,7 +23,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterNewsFeed extends RecyclerView.Adapter<AdapterNewsFeed.MyHolder>{
@@ -30,11 +36,10 @@ public class AdapterNewsFeed extends RecyclerView.Adapter<AdapterNewsFeed.MyHold
     String myUid;
     FirebaseFirestore firestore;
 
+
     public AdapterNewsFeed(Context context, List<PastJourney> postList) {
         this.context = context;
         this.postList = postList;
-        firestore=FirebaseFirestore.getInstance();
-        myUid= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     }
 
@@ -47,19 +52,17 @@ public class AdapterNewsFeed extends RecyclerView.Adapter<AdapterNewsFeed.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        CollectionReference documentReference=firestore.collection(myUid);
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+        PastJourney pastJourney=postList.get(position);
 
-                    }
-                } else {
+        holder.title.setText(pastJourney.getTitle());
+        holder.location.setText(pastJourney.getLocation());
+        holder.description.setText(pastJourney.getDescription());
+        try{
+            Picasso.get().load(pastJourney.getTitle()).into(holder.image);
 
-                }
-            }
-        });
+        }catch (Exception e){
+            System.out.println("this Error "+e);
+        }
     }
 
     @Override
@@ -68,8 +71,16 @@ public class AdapterNewsFeed extends RecyclerView.Adapter<AdapterNewsFeed.MyHold
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
+
+        TextView title,location,description;
+        ImageView image;
+
         public MyHolder(@NonNull View itemView) {
             super(itemView);
+            title=itemView.findViewById(R.id.title_view);
+            location=itemView.findViewById(R.id.location_view);
+            description=itemView.findViewById(R.id.description_view);
+            image=itemView.findViewById(R.id.image_view);
         }
     }
 }

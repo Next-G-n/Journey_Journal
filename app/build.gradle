@@ -12,6 +12,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -70,5 +72,14 @@ dependencies {
     implementation group: 'com.github.seratch', name: 'java-time-backport', version: '1.0.0'
 
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+
+        // FirebaseUI for Cloud Firestore
+        implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
+
+
+
 
 }

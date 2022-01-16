@@ -1,57 +1,80 @@
 package com.example.journeyjournal.models;
 
 public class PastJourney {
-    String title;
-    String date;
-    String description;
-    String location;
-    String image;
+    String Title;
+    String Date;
+    String Description;
+    String Location;
+    String UserId;
+    String EntryId;
+    String Image0;
 
-    public PastJourney(String title, String date, String description, String location, String image) {
-        this.title = title;
-        this.date = date;
-        this.description = description;
-        this.location = location;
-        this.image = image;
+    public PastJourney() {
+    }
+
+    public PastJourney(String title, String date, String description, String location, String userId, String entryId, String image0) {
+        Title = title;
+        Date = date;
+        Description = description;
+        Location = location;
+        UserId = userId;
+        EntryId = entryId;
+        Image0 = image0;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public String getEntryId() {
+        return EntryId;
+    }
+
+    public void setEntryId(String postId) {
+        EntryId = postId;
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        Title = title;
     }
 
     public String getDate() {
-        return date;
+        return Date;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        Date = date;
     }
 
     public String getDescription() {
-        return description;
+        return Description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        Description = description;
     }
 
     public String getLocation() {
-        return location;
+        return Location;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        Location = location;
     }
 
-    public String getImage() {
-        return image;
+    public String getImage0() {
+        return Image0;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage0(String image0) {
+        Image0 = image0;
     }
 }

@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow"
-                    />
+                    android:contentDescription="@string/todo" />
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -61,11 +61,13 @@
                 android:background="@color/colorPrimary"
                 app:cardCornerRadius="150dp"
                 app:cardElevation="5dp">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_user_2"
-                    />
+                    tools:ignore="ImageContrastCheck"
+                    android:contentDescription="@string/todo" />
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -83,6 +85,7 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/title"
         android:textColorHint="@color/colorPrimaryDark"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -91,13 +94,14 @@
         app:boxBackgroundColor="@color/white"
         app:errorEnabled="true"
         style="@style/bounders">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
             android:id="@+id/title_edit"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title"
+            android:inputType="text"
             android:textColor="@color/colorPrimaryDark"
-            android:inputType="text" />
+            tools:ignore="TouchTargetSizeCheck" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -108,22 +112,23 @@
         android:id="@+id/location_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/location"
-        android:textColorHint="@color/colorPrimaryDark"
         android:layout_marginStart="40dp"
         app:errorEnabled="true"
         android:layout_marginEnd="40dp"
+        android:hint="@string/location"
+        android:textColorHint="@color/colorPrimaryDark"
         app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
         app:boxStrokeColor="@color/colorPrimaryDark"
         app:boxBackgroundColor="@color/white"
         style="@style/bounders">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/location_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/location_edit"
-            android:hint="@string/location"
+            android:inputType="text"
             android:textColor="@color/colorPrimaryDark"
-            android:inputType="text" />
+            tools:ignore="TouchTargetSizeCheck" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -163,19 +168,19 @@
         app:boxStrokeColor="@color/colorPrimaryDark"
         app:boxBackgroundColor="@color/white"
         style="@style/bounders">
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/description"
-        android:textColor="@color/colorPrimaryDark"
-        android:id="@+id/description_edit"
-        android:inputType="textMultiLine"
-        android:lines="12"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="insideInset"
-        android:overScrollMode="always"
-        android:scrollHorizontally="false"
-        android:gravity="top"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/description_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:lines="12"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false"
+            android:textColor="@color/colorPrimaryDark" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -185,7 +190,7 @@
         android:layout_marginEnd="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="@string/submit"
         android:textColor="@color/white"
         />

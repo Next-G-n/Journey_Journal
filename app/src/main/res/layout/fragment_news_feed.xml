@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".NewsFeedFragment"
+    android:orientation="vertical"
     android:background="@color/WhiteBackground">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-        <LinearLayout
-            android:weightSum="100"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical">
+
+
             <LinearLayout
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:layout_weight="12"
                 android:layout_width="360dp"
-                android:layout_height="0dp"
+                android:layout_height="70dp"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/ic_notification"/>
+                    android:src="@drawable/ic_notification"
+                    android:contentDescription="@string/notification"/>
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
@@ -50,77 +44,64 @@
                     android:background="@color/colorPrimary"
                     app:cardCornerRadius="150dp"
                     app:cardElevation="5dp">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:contentDescription="@string/action_cancel"
                         android:src="@drawable/ic_user_2"
-                        />
+                        tools:ignore="ImageContrastCheck" />
 
                 </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_weight="7"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:background="@drawable/text_field"
-                android:layout_gravity="center"
-                android:gravity="center"
-             android:layout_margin="20dp"
-                >
-                <ImageView
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_search_2" />
+
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/colorPrimaryDark"
-                    android:gravity="center"
                     android:id="@+id/search_bar"
                     android:hint="@string/search_msg"
-                    android:defaultFocusHighlightEnabled="false"
-                    >
+                    app:startIconDrawable="@drawable/ic_search_2"
+                    app:endIconDrawable="@drawable/ic_fliter"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/colorPrimaryDark"
+                    app:startIconTint="@color/colorPrimaryDark"
+                    app:endIconContentDescription="@string/filter"
+                    app:startIconContentDescription="@string/search"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxBackgroundColor="@color/white"
+                    style="@style/bounders"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp">
+
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="270dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/text_field"
-                        android:layout_gravity="center"
-                        android:textSize="15sp"
                         android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
 
-                        />
+
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_fliter"
-                    />
-
-
-            </LinearLayout>
             <ScrollView
-                android:layout_weight="90"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="15dp">
                 <androidx.recyclerview.widget.RecyclerView
+
                     android:id="@+id/recycleView_post"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             </ScrollView>
 
-        </LinearLayout>
-    </ScrollView>
 
-</FrameLayout>
+
+
+</LinearLayout>
