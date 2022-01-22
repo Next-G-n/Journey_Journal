@@ -2,14 +2,19 @@ package com.example.journeyjournal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -39,10 +44,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,6 +66,9 @@ public class Journey_Entry_Details extends AppCompatActivity {
     private Dialog dialog;
     private Handler sliderHandler=new Handler();
     Uri uri=null;
+    String[] storagePermission;
+    private static final int STORAGE_REQUEST_CODE=200;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +86,8 @@ public class Journey_Entry_Details extends AppCompatActivity {
         Intent intent=getIntent();
         entry_Id=intent.getStringExtra("Entry_Id");
         viewPager2=findViewById(R.id.viewPageImageSlider_details);
+
+        storagePermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -123,44 +135,86 @@ public class Journey_Entry_Details extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareJourneyEntry();
+                if (ContextCompat.checkSelfPermission(Journey_Entry_Details.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    requestStoragePermission();
+                }else{
+
+                    shareJourneyEntry();
+                }
+
+
+
             }
 
         });
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case STORAGE_REQUEST_CODE:
+                // Re-attempt file write
+                shareJourneyEntry();
+        }
+    }
+    private boolean checkStoragePermission(){
+        boolean result= ContextCompat.checkSelfPermission(this,Manifest.
+                permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+    private void requestStoragePermission(){
+        //request runtime storage permission
+        ActivityCompat.requestPermissions(Journey_Entry_Details.this,storagePermission,STORAGE_REQUEST_CODE
+        );
+    }
 
 
     private void shareJourneyEntry(){
         ArrayList<Uri> imageUris = new ArrayList<Uri>();
-        for (int i=0;i<sliderItems.size();++i){
+      //  for (int i=0;i<sliderItems.size();++i){
 
-            Picasso.get().load(sliderItems.get(i).getFromDatabase()).into(new Target() {
+            Picasso.get().load(sliderItems.get(0).getFromDatabase()).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    File mydir= null;
+
+                    //uri=getImag2eUri(Journey_Entry_Details.this,bitmap);
                     try {
-                        File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
-                        if (!mydir.exists()) {
-                            mydir.mkdirs();
+                             mydir = new File(Environment.getExternalStorageDirectory() + "/DCIM");
+                            if (!mydir.exists()) {
+                                mydir.mkdirs();
+                            }
+
+                            fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+                            FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                            outputStream.flush();
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
 
-                        fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
-                        FileOutputStream outputStream = new FileOutputStream(fileUri);
-                        Toast.makeText(Journey_Entry_Details.this, "Nshathis "+fileUri, Toast.LENGTH_SHORT).show();
 
-                        System.out.println("Nshathisi buy "+fileUri);
+                        uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                              /*BitmapFactory.decodeFile(fileUri)*/bitmap, fileUri, null));
+                    //uri= FileProvider.getUriForFile(getApplicationContext(),"studio.harpreet.mybrowser.provider",mydir);
 
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                        outputStream.flush();
-                        outputStream.close();
-                    } catch(IOException e) {
-                        e.printStackTrace();
-                    }
-                    if(fileUri== null) {
-                    uri= Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                            BitmapFactory.decodeFile(fileUri),null,null));
-                    }
-                    uri=getloacalBitmaUri(bitmap);
+                    //getloacalBitmaUri(bitmap);
+
+                  //  imageUris.add(uri);
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Title: "+title1
+                            +"\n"+"Location: "+location1+"\n"+"Date: "+date1+"\n"+"Description: "+description1);
+                    shareIntent.setType("image/jpeg");
+                    startActivity(Intent.createChooser(shareIntent, "me Testing Ignore"));
+
                 }
 
                 @Override
@@ -173,18 +227,20 @@ public class Journey_Entry_Details extends AppCompatActivity {
 
                 }
             });
-            imageUris.add(uri);
-        }
+       // }
 
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
-        shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Title :"+title1);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Date :"+date1);
-        shareIntent.putExtra(Intent.EXTRA_TEXT,"Location :"+location1+ "\n"+"Description :"+description1);
-        startActivity(Intent.createChooser(shareIntent, null));
+
+
+
+        System.out.println("Chandida : "+imageUris.size());
     }
+    public static Uri getImag2eUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage,"IMG_" + Calendar.getInstance().getTimeInMillis(),null);
+        return Uri.parse(path);
+    }
+
     public Uri getloacalBitmaUri(Bitmap bmp)
     {
         Uri bmpuri = null;
@@ -202,6 +258,7 @@ public class Journey_Entry_Details extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+        System.out.println("Gobe "+bmpuri);
         return bmpuri;
     }
 
@@ -271,6 +328,7 @@ public class Journey_Entry_Details extends AppCompatActivity {
             }
         });
     }
+
 
     private void deleteEntry(){
         firestore.collection("Post Entries").document(entry_Id)

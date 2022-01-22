@@ -108,7 +108,7 @@ public class NewsFeedFragment extends Fragment {
         firestore=FirebaseFirestore.getInstance();
         userID=auth.getCurrentUser();
         String uid=userID.getUid();
-        Query query=firestore.collection("Post Entries").whereNotEqualTo("Title",null).whereEqualTo("UserId",uid);
+        Query query=firestore.collection("Post Entries").whereNotEqualTo("Title",null).whereEqualTo("UserId",uid).orderBy("Title");
 
 
         FirestoreRecyclerOptions<PastJourney> options = new FirestoreRecyclerOptions.Builder<PastJourney>()

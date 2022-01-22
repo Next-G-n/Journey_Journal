@@ -2,5 +2,6 @@
 <paths>
     <cache-path
         name="shared_images"
-        path="images/" />
+        path="." />
+    <external-path name="hm_DCIM" path="Android/data/com.example.journeyjournal/files/Pictures/" />
 </paths>

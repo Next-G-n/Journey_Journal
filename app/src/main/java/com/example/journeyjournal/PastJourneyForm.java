@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -69,8 +70,8 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
     String[] locationPermission;
     PlacesClient placesClient;
     LocationManager locationManager;
-    TextInputEditText location_Edit,description_edit,title_edit;
-    TextInputLayout location_layout,description_layout,title_layout;
+    TextInputEditText location_Edit,description_edit,title_edit,date;
+    TextInputLayout location_layout,description_layout,title_layout,layout_date;
     private Button submit_btn;
     Dialog dialog;
     List<SliderItem> sliderItems;
@@ -93,9 +94,12 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
         location_layout=findViewById(R.id.location_layout);
         description_layout=findViewById(R.id.description_layout);
         title_layout=findViewById(R.id.title_layout);
+        date=findViewById(R.id.date_edit);
+        layout_date=findViewById(R.id.Date_layout);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
+
 
         sliderItems=new ArrayList<>();
 
@@ -125,6 +129,51 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
         locationPermission = new String[]{ACCESS_FINE_LOCATION, Manifest.permission.LOCATION_HARDWARE};
 
         date_picker = findViewById(R.id.date_picker_actions2);
+
+
+
+        MaterialDatePicker.Builder materialDateBuilder2 = MaterialDatePicker.Builder.datePicker();
+
+        // now define the properties of the
+        // materialDateBuilder that is title text as SELECT A DATE
+        materialDateBuilder2.setTitleText("SELECT A DATE");
+
+        // now create the instance of the material date
+        // picker
+        final MaterialDatePicker materialDatePicker2 = materialDateBuilder2.build();
+
+        // handle select date button which opens the
+        // material design date picker
+        date.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // getSupportFragmentManager() to
+                        // interact with the fragments
+                        // associated with the material design
+                        // date picker tag is to get any error
+                        // in logcat
+                        materialDatePicker2.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                    }
+                });
+
+        // now handle the positive button click from the
+        // material design date picker
+        materialDatePicker2.addOnPositiveButtonClickListener(
+                new MaterialPickerOnPositiveButtonClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onPositiveButtonClick(Object selection) {
+
+                        // if the user clicks on the positive
+                        // button that is ok button update the
+                        // selected date
+                        date.setText("Selected Date is : " + materialDatePicker2.getHeaderText());
+                        // in the above statement, getHeaderText
+                        // is the selected date preview from the
+                        // dialog
+                    }
+                });
 
 
 
