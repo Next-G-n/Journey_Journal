@@ -5,17 +5,14 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -25,16 +22,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.journeyjournal.adapter.AdapterImageViewWithLike;
 import com.example.journeyjournal.models.SliderItem;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +38,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 
 import android.location.Address;
@@ -54,7 +47,6 @@ import android.location.LocationManager;
 import android.widget.Toast;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,8 +55,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class PastJourneyForm extends AppCompatActivity implements LocationListener{
-    private static final Object REQUEST_CODE = 1;
-    private TextView date_picker, maptest;
+    private static final Integer REQUEST_CODE = 1;
+    private TextView date_picker, start_date;
     private TextInputLayout date_picker2;
     int PLACE_PICKER_REQUEST = 1;
     String[] locationPermission;
@@ -94,8 +86,8 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
         location_layout=findViewById(R.id.location_layout);
         description_layout=findViewById(R.id.description_layout);
         title_layout=findViewById(R.id.title_layout);
-        date=findViewById(R.id.date_edit);
-        layout_date=findViewById(R.id.Date_layout);
+
+
         mStorageRef = FirebaseStorage.getInstance().getReference();
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
@@ -129,73 +121,91 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
         locationPermission = new String[]{ACCESS_FINE_LOCATION, Manifest.permission.LOCATION_HARDWARE};
 
         date_picker = findViewById(R.id.date_picker_actions2);
+        start_date = findViewById(R.id.date_picker_actions);
 
 
 
-        MaterialDatePicker.Builder materialDateBuilder2 = MaterialDatePicker.Builder.datePicker();
+// now register the text view and the button with
+        // their appropriate IDs
+    ;
+
+        // now create instance of the material date picker
+        // builder make sure to add the "datePicker" which
+        // is normal material date picker which is the first
+        // type of the date picker in material design date
+        // picker
+        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
 
         // now define the properties of the
         // materialDateBuilder that is title text as SELECT A DATE
-        materialDateBuilder2.setTitleText("SELECT A DATE");
+        materialDateBuilder.setTitleText("SELECT A DATE");
 
         // now create the instance of the material date
         // picker
-        final MaterialDatePicker materialDatePicker2 = materialDateBuilder2.build();
+        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+
+        final MaterialDatePicker materialDatePicker1 = materialDateBuilder.build();
 
         // handle select date button which opens the
         // material design date picker
-        date.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // getSupportFragmentManager() to
-                        // interact with the fragments
-                        // associated with the material design
-                        // date picker tag is to get any error
-                        // in logcat
-                        materialDatePicker2.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
-                    }
-                });
+        if (materialDatePicker.isAdded()) {
+            date_picker.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // getSupportFragmentManager() to
+                            // interact with the fragments
+                            // associated with the material design
+                            // date picker tag is to get any error
+                            // in logcat
+                            materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                            return;
+                        }
+                    });
+        }
+        if (materialDatePicker1.isAdded()) {
+            start_date.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // getSupportFragmentManager() to
+                            // interact with the fragments
+                            // associated with the material design
+                            // date picker tag is to get any error
+                            // in logcat
+                            materialDatePicker1.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                            return;
+                        }
+                    });
+        }
 
         // now handle the positive button click from the
         // material design date picker
-        materialDatePicker2.addOnPositiveButtonClickListener(
-                new MaterialPickerOnPositiveButtonClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onPositiveButtonClick(Object selection) {
+        materialDatePicker1.addOnPositiveButtonClickListener(
+                selection -> {
+
+                    // if the user clicks on the positive
+                    // button that is ok button update the
+                    // selected date
+                    start_date.setText(materialDatePicker1.getHeaderText());
+                    // in the above statement, getHeaderText
+                    // is the selected date preview from the
+                    // dialog
+                });
+
+            materialDatePicker.addOnPositiveButtonClickListener(
+                    selection -> {
 
                         // if the user clicks on the positive
                         // button that is ok button update the
                         // selected date
-                        date.setText("Selected Date is : " + materialDatePicker2.getHeaderText());
+                        date_picker.setText(materialDatePicker.getHeaderText());
                         // in the above statement, getHeaderText
                         // is the selected date preview from the
                         // dialog
-                    }
-                });
+                    });
 
 
-
-        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
-        builder.setTitleText("Select A Date");
-
-        final MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
-
-        date_picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
-            }
-        });
-
-        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-            @Override
-            public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                date_picker.setText(materialDatePicker.getHeaderText());
-            }
-        });
-       // materialDatePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener) selection -> date_picker.setText(materialDatePicker.getHeaderText()));
 
         submit_btn.setOnClickListener(view -> {
                 UploadInfo();
@@ -240,6 +250,7 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
         loading();
         final String title=Objects.requireNonNull(title_edit.getText()).toString().trim();
         final String date=date_picker.getText().toString().trim();
+        final String date_start=start_date.getText().toString().trim();
         final String desc=Objects.requireNonNull(description_edit.getText()).toString().trim();
         final String location= Objects.requireNonNull(location_Edit.getText()).toString().trim();
 
@@ -278,7 +289,7 @@ public class PastJourneyForm extends AppCompatActivity implements LocationListen
             Map<String,Object> post_info=new HashMap<>();
             post_info.put("Title",title);
             post_info.put("Location",location);
-            post_info.put("Date",date);
+            post_info.put("Date",date_start+"-"+date);
             post_info.put("Description",desc);
 
             documentReference.update(post_info).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -8,7 +8,10 @@
         <item name="fontFamily">@fonts/rubik-black.ttf</item>
     </style>
 
-    <style name="NoActionBarAndStatusBar">
+    <style name="NoActionBarAndStatusBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/toptopbar</item>
+        <item name="colorAccent">@color/colorAccent2</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>

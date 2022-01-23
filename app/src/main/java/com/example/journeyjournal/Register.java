@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +42,8 @@ import java.util.Map;
 
 public class Register extends AppCompatActivity {
     private Button registration_btn;
-    private EditText first_name_input,last_name_input,phone_number_input,email_input,password_input,password_confirm_input;
+    private TextInputLayout first_name_inputL,last_name_inputL,phone_number_inputL,email_inputL,password_inputL,password_confirm_inputL;
+    private TextInputEditText first_name_input,last_name_input,phone_number_input,email_input,password_input,password_confirm_input;
     Dialog dialog;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
@@ -62,6 +65,12 @@ public class Register extends AppCompatActivity {
         email_input=findViewById(R.id.email_register);
         password_input=findViewById(R.id.password_register);
         password_confirm_input=findViewById(R.id.password_confirm_register);
+        first_name_inputL=findViewById(R.id.first_name_registerL);
+        last_name_inputL=findViewById(R.id.last_name_registerl);
+        phone_number_inputL=findViewById(R.id.phone_number_registerL);
+        email_inputL=findViewById(R.id.email_registerL);
+        password_inputL=findViewById(R.id.password_registerL);
+        password_confirm_inputL=findViewById(R.id.password_confirm_registerL);
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
         scrollView=findViewById(R.id.scrollable);
@@ -108,31 +117,31 @@ public class Register extends AppCompatActivity {
         final String password=password_input.getText().toString().trim();
         final String password_confirm=password_confirm_input.getText().toString().trim();
         if(TextUtils.isEmpty(first_name)){
-            last_name_input.setBackgroundResource(R.drawable.text_field_error);
+            first_name_inputL.setError("Please write your First Name......");
         }else if(TextUtils.isEmpty(last_name)){
             defaultDrawable();
-            last_name_input.setBackgroundResource(R.drawable.text_field_error);
+            last_name_inputL.setError("Please write your Last Name......");
         }
        else if(TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             defaultDrawable();
-            email_input.setBackgroundResource(R.drawable.text_field_error);
+            email_inputL.setError("Please write your Email......");
 
         }
         else if(TextUtils.isEmpty(phone_number)){
             defaultDrawable();
-            phone_number_input.setBackgroundResource(R.drawable.text_field_error);
+            phone_number_inputL.setError("Please write your Phone Number......");
 
         }else if(TextUtils.isEmpty(password) || password.length()<=5){
             defaultDrawable();
-            password_input.setBackgroundResource(R.drawable.text_field_error);
+            password_inputL.setError("Please write your Password......");
 
         }else if(TextUtils.isEmpty(password_confirm)){
             defaultDrawable();
-            password_confirm_input.setBackgroundResource(R.drawable.text_field_error);
+            password_confirm_inputL.setError("Please write your Confirm Password......");
 
         }else if(!(password_confirm.matches(password))){
             defaultDrawable();
-            password_confirm_input.setBackgroundResource(R.drawable.text_field_error);
+            password_confirm_inputL.setError("Password and Conform Password does not match......");
         }else{
             dialog.show();;
             auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -150,12 +159,14 @@ public class Register extends AppCompatActivity {
                         String uid=userID.getUid();
                         Log.w(TAG,"test document");
 
+
+
                         DocumentReference documentReference=firestore.collection("Users_Information").document(uid);
                         Map<String,Object> user_info=new HashMap<>();
                         user_info.put("First Name",first_name);
                         user_info.put("Last Name",last_name);
                         user_info.put("email",email);
-                        user_info.put("Phone Number",codePicker+phone_number);
+                        user_info.put("Phone Number",codePicker.getSelectedCountryCode()+phone_number);
 
 
                         documentReference.set(user_info).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -198,12 +209,12 @@ public class Register extends AppCompatActivity {
     }
 
     private void defaultDrawable() {
-        last_name_input.setBackgroundResource(R.drawable.text_field);
-        first_name_input.setBackgroundResource(R.drawable.text_field);
-        email_input.setBackgroundResource(R.drawable.text_field);
-        phone_number_input.setBackgroundResource(R.drawable.text_phone_number);
-        password_input.setBackgroundResource(R.drawable.text_field);
-        password_confirm_input.setBackgroundResource(R.drawable.text_field);
+        last_name_inputL.setError(null);
+        first_name_inputL.setError(null);
+        email_inputL.setError(null);
+        phone_number_inputL.setError(null);
+        password_inputL.setError(null);
+        password_confirm_inputL.setError(null);
     }
 
 

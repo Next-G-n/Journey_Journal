@@ -8,6 +8,7 @@
     android:background="@color/WhiteBackground"
     tools:context=".PastJourneyForm">
 
+
     <LinearLayout
         android:layout_gravity="center"
         android:padding="10dp"
@@ -74,9 +75,9 @@
 
     </LinearLayout>
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -101,7 +102,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -128,42 +129,30 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck,TextContrastCheck,TextContrastCheck" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="15dp"
-        android:id="@+id/Date_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        app:errorEnabled="true"
-        android:layout_marginEnd="40dp"
-        android:hint="@string/date"
-        android:textColorHint="@color/colorPrimaryDark"
-        app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
-        app:boxStrokeColor="@color/colorPrimaryDark"
-        app:boxBackgroundColor="@color/white"
-        style="@style/bounders">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/date_edit"
+
+        <TextView
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_height="50dp"
+            android:paddingStart="20dp"
+            android:id="@+id/date_picker_actions"
+            android:paddingEnd="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/start_date"
+            android:background="@drawable/new_text_field"
             android:textColor="@color/colorPrimaryDark"
-            tools:ignore="TouchTargetSizeCheck" />
-
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-
+            />
 
 
     <TextView
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingStart="20dp"
@@ -172,7 +161,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:gravity="center_vertical"
-        android:text="@string/date"
+        android:text="@string/end_date"
         android:background="@drawable/new_text_field"
         android:textColor="@color/colorPrimaryDark"
         />
@@ -204,7 +193,8 @@
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

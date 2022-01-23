@@ -48,6 +48,7 @@
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
     <string name="date">Date</string>
+    <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
     <string name="description">Description</string>
     <string name="example_dec_msg">Lorem ipsumdolor sit amet, consectetur adipiscing elit. Risus condimentum nulla diam proin quis commodo malesuada. Dolor morbi egestas consectetur egestas aliquam tellus. Accumsan tristique ...  </string>

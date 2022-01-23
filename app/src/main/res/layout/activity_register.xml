@@ -7,16 +7,11 @@
     android:background="@drawable/ic_background_register2"
     tools:context=".Register">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollable"
-        android:fillViewport="true" >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:weightSum="100">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_weight="20"
                 android:weightSum="100"
@@ -59,6 +54,13 @@
 
                 </LinearLayout>
             </LinearLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scrollable"
+                android:fillViewport="true" >
+
+
             <LinearLayout
                 android:layout_weight="80"
                 android:layout_width="match_parent"
@@ -67,140 +69,210 @@
                 android:gravity="center"
                 android:weightSum="100">
 
-
-                <EditText
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="10"
-                    android:id="@+id/first_name_register"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/first_name_registerL"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/first_name"
-                    android:inputType="text"
-                    android:paddingStart="20dp"
-                    android:elevation="10dp"
-                    android:background="@drawable/text_field"
-                    tools:ignore="RtlSymmetry,TextFields"
-                    />
-                <EditText
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="10"
-                    android:id="@+id/last_name_register"
+                    android:textColorHint="@color/colorPrimaryDark"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
+                    app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    style="@style/bounders">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/first_name_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/last_name_registerl"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/last_name"
-                    android:paddingStart="20dp"
-                    android:inputType="text"
-                    android:elevation="10dp"
-                    android:background="@drawable/text_field"
-                    tools:ignore="RtlSymmetry,TextFields"
-                    />
-
-
-                <EditText
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="10"
-                    android:id="@+id/email_register"
+                    android:textColorHint="@color/colorPrimaryDark"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
+                    app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    style="@style/bounders">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/last_name_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/email_registerL"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:paddingStart="20dp"
-                    android:inputType="textEmailAddress"
-                    android:elevation="10dp"
-                    android:background="@drawable/text_field"
-                    tools:ignore="RtlSymmetry,TextFields"
-                    />
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    style="@style/bounders">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <LinearLayout
                     android:layout_marginTop="20dp"
-                    android:layout_weight="10"
                     android:elevation="10dp"
                    android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@drawable/text_field"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
                     android:orientation="horizontal">
                     <com.hbb20.CountryCodePicker
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/new_text_field"
                         android:id="@+id/ccp"
+                        android:paddingBottom="7dp"
+                        android:paddingTop="7dp"
                         android:layout_weight="15"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         app:ccp_autoDetectCountry="true"
                         app:ccp_showPhoneCode="true"
                         app:ccp_showNameCode="false"
+                        android:layout_marginBottom="8dp"
                         />
-                    <EditText
-                        android:layout_weight="85"
-                        android:id="@+id/phone_number_register"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_weight="75"
+                        android:id="@+id/phone_number_registerL"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorEnabled="true"
                         android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:background="@drawable/text_phone_number"
-                        android:digits="0123456789+"
-                        android:paddingStart="20dp"
-                        android:elevation="10dp"
-                        tools:ignore="RtlSymmetry,TextFields"
-                        />
+                        android:textColorHint="@color/colorPrimaryDark"
+                        app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
+                        app:boxStrokeColor="@color/colorPrimaryDark"
+                        app:boxBackgroundColor="@color/white"
+                        style="@style/bounders">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phone_number_register"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textColor="@color/colorPrimaryDark"
+                            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,TextContrastCheck,TextContrastCheck,TextContrastCheck,TextContrastCheck,TextContrastCheck" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 </LinearLayout>
 
 
-
-
-                <EditText
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="10"
-                    android:id="@+id/password_register"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/password_registerL"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/password"
-                    android:paddingStart="20dp"
-                    android:inputType="textPassword"
-                    android:elevation="10dp"
-                    android:background="@drawable/text_field"
-                    tools:ignore="RtlSymmetry,TextFields"
+                    android:textColorHint="@color/colorPrimaryDark"
+                    android:layout_marginStart="40dp"
+                    app:endIconMode="password_toggle"
+                    android:layout_marginEnd="40dp"
+                    app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxBackgroundColor="@color/white"
+                    app:errorEnabled="true"
+                    style="@style/bounders">
 
-                    />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
 
-                <EditText
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="10"
-                    android:id="@+id/password_confirm_register"
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/password_confirm_registerL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/confirm_password"
+                    android:textColorHint="@color/colorPrimaryDark"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:hint="@string/confirm_password"
-                    android:paddingStart="20dp"
-                    android:inputType="textPassword"
-                    android:elevation="10dp"
-                    android:background="@drawable/text_field"
-                    tools:ignore="RtlSymmetry,TextFields"
-                    />
+                    app:shapeAppearanceOverlay="@style/Rounded_ShapeAppearanceOverlay.MaterialComponents.TextInputLayout"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxBackgroundColor="@color/white"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true"
+                    style="@style/bounders">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_confirm_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <Button
                     android:id="@+id/registration_btn"
-                    android:layout_weight="9"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@drawable/button"
-                    android:text="@string/submit"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:text="@string/register"
                     android:textColor="@color/white"
                     />
+
             </LinearLayout>
+
+            </ScrollView>
         </LinearLayout>
-</ScrollView>
+
 
 </LinearLayout>

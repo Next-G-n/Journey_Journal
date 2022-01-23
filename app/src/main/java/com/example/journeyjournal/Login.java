@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -44,6 +45,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -64,7 +67,8 @@ public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN =100;
     private TextView create_account,forgot_password;
     private Button login_btn;
-    private EditText email_input,password_input;
+    private TextInputEditText email_input,password_input;
+    private TextInputLayout email_inputL,password_inputL;
     private FirebaseAuth auth;
     private ImageButton google_login,face_book_login,twitter_login;
     private GoogleSignInClient mGoogleSignInClient;
@@ -88,6 +92,8 @@ public class Login extends AppCompatActivity {
         login_btn=findViewById(R.id.login_btn);
         email_input=findViewById(R.id.email_login);
         password_input=findViewById(R.id.password_login);
+        email_inputL=findViewById(R.id.email_loginL);
+        password_inputL=findViewById(R.id.password_loginL);
         google_login=findViewById(R.id.google_login);
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
@@ -325,11 +331,14 @@ public class Login extends AppCompatActivity {
         String email=email_input.getText().toString().trim();
         String password=password_input.getText().toString().trim();
 
-        if (TextUtils.isEmpty(password)) {
-            password_input.setError("Please write your Email ...");
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            email_inputL.setError("Please write your Email  ......");
+            dialog.dismiss();
 
-        } else if (TextUtils.isEmpty(email)) {
-            email_input.setError("Please write your password ......");
+        } else if (TextUtils.isEmpty(password)) {
+            password_inputL.setError("Please write your password ...");
+            defaultDrawable();
+            dialog.dismiss();
         }else {
 
             auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -360,6 +369,10 @@ public class Login extends AppCompatActivity {
             finish();
 
         }
+    }
+    private void defaultDrawable() {
+        email_inputL.setError(null);
+        password_inputL.setError(null);
     }
 
     public void onStart() {
