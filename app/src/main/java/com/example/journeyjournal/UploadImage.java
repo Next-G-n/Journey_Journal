@@ -165,7 +165,6 @@ public class UploadImage extends AppCompatActivity implements Serializable{
         int i;
         for(i=0;i<sliderItems.size();++i){
             uploadImageToDb(sliderItems.get(i).getImageName(),sliderItems.get(i).getImage(),uid,i);
-            System.out.println("Shatty : "+downloadUri);
             post_info.put("image"+i,downloadUri);
         }
         documentReference.set(post_info).addOnSuccessListener(new OnSuccessListener<Void>() {

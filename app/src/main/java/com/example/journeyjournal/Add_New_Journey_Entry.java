@@ -326,8 +326,8 @@ public class Add_New_Journey_Entry extends AppCompatActivity {
         dialog.setCancelable(true);
         dialog.show();
 
-        TextView camera=dialog.findViewById(R.id.camera);
-        TextView gallery=dialog.findViewById(R.id.gallery);
+        Button camera=dialog.findViewById(R.id.camera);
+        Button gallery=dialog.findViewById(R.id.gallery);
 
 
 

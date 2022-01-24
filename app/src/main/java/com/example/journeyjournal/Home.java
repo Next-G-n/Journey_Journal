@@ -42,7 +42,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         actionBar = getSupportActionBar();
         navigationView = findViewById(R.id.bottom_menu);
-        logout = findViewById(R.id.logout_btn);
+        //logout = findViewById(R.id.logout_btn);
         auth = FirebaseAuth.getInstance();
         bottomAppBar = findViewById(R.id.bottom_appBar);
         floatingActionButton=(FloatingActionButton) findViewById(R.id.floating_btn);
@@ -82,22 +82,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(Home.this, "logout", Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
-                //Menu menuNav = navigationView.getMenu();
-                //MenuItem logoutItem = menuNav.findItem(R.menu.menu_bottom);
-
-                finish();
-                if (Home.this != null) {
-                   startActivity(new Intent(Home.this, Login.class));
-                }
-            }
-        });
     }
 
     private void loadDialog(){

@@ -24,29 +24,31 @@
         android:layout_height="5dp"
         android:background="@color/colorPrimaryDark"/>
 
-    <TextView
-        android:layout_marginTop="10dp"
+    <Button
         android:id="@+id/camera"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="40"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textColor="@color/colorPrimaryMDark"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAllCaps="false"
         android:text="@string/camera"
-        android:gravity="center"
-        android:textSize="15sp"/>
+        android:textAppearance="?attr/textAppearanceButton"
+        android:textColor="#225C92"
+        android:textSize="15sp" />
 
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:id="@+id/gallery"
+    <Button
         android:layout_marginBottom="20dp"
-        android:layout_weight="40"
-        android:textColor="@color/colorPrimaryMDark"
+        android:id="@+id/gallery"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceButton"
         android:text="@string/gallery"
-        android:gravity="center"
-        android:textSize="15sp"/>
+        android:textColor="@color/colorPrimaryMDark"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        />
+
 
 </LinearLayout>

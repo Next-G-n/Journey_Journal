@@ -66,5 +66,7 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="share">Share</string>
+    <string name="user_name">User Name</string>
+    <string name="user_profile">User Profile</string>
 
 </resources>

@@ -43,6 +43,7 @@
                     android:layout_gravity="center"
                     android:background="@color/colorPrimary"
                     app:cardCornerRadius="150dp"
+                    android:id="@+id/clickProfile"
                     app:cardElevation="5dp">
 
                     <ImageView

@@ -50,18 +50,7 @@
         android:contentDescription="@string/todo" />
 
 
-    <Button
 
-        android:id="@+id/logout_btn"
-        android:layout_marginTop="200dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="@string/logout"
-        android:textColor="@color/white"
-        />
 
 
 
